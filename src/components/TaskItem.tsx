@@ -1,25 +1,23 @@
 import React, { useState } from "react";
+import useTaskStore from "../store/taskStore";
 import { Task } from "../types";
 
 interface TaskItemProps {
   task: Task;
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
-  onEdit: (id: number, title: string, description: string) => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({
-  task,
-  onToggle,
-  onDelete,
-  onEdit,
-}) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+  //const task = useTaskStore((state) => state.tasks);
+  const editTask = useTaskStore((state) => state.editTask);
+  const toggleTask = useTaskStore((state) => state.toggleTask);
+  const deleteTask = useTaskStore((state) => state.deleteTask);
+
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDescription, setNewDescription] = useState(task.description);
 
   const handleEditSubmit = () => {
-    onEdit(task.id, newTitle, newDescription);
+    editTask(task.id, newTitle, newDescription);
     setIsEditing(false);
   };
 
@@ -46,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <input
             type="checkbox"
             checked={task.completed}
-            onChange={() => onToggle(task.id)}
+            onChange={() => toggleTask(task.id)}
           />
           <span
             style={{ textDecoration: task.completed ? "line-through" : "none" }}
@@ -57,7 +55,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         </>
       )}
       <button onClick={() => setIsEditing(true)}>Edit</button>
-      <button onClick={() => onDelete(task.id)}>Delete</button>
+      <button onClick={() => deleteTask(task.id)}>Delete</button>
     </div>
   );
 };

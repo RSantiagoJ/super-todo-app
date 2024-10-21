@@ -1,25 +1,27 @@
 import React from "react";
-import { Task } from "../types";
+import useTaskStore from "../store/taskStore";
 import TaskItem from "./TaskItem";
 
-interface TaskListProps {
-  tasks: Task[];
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
-  onEdit: (id: number, title: string, description: string) => void;
-  onSortByName: () => void;
-  onSortByCreationDate: () => void;
-  onSortByStatus: () => void;
-}
+// interface TaskListProps {
+//   tasks: Task[];
+//   // onToggle: (id: number) => void;
+//   // onDelete: (id: number) => void;
+//   // onEdit: (id: number, title: string, description: string) => void;
+//   // onSortByName: () => void;
+//   // onSortByCreationDate: () => void;
+//   // onSortByStatus: () => void;
+// }
+
+const addTask = useTaskStore((state) => state.addTask);
 
 const TaskList: React.FC<TaskListProps> = ({
   tasks,
-  onToggle,
-  onDelete,
-  onEdit,
-  onSortByName,
-  onSortByCreationDate,
-  onSortByStatus,
+  // onToggle,
+  // onDelete,
+  // onEdit,
+  // onSortByName,
+  // onSortByCreationDate,
+  // onSortByStatus,
 }) => {
   return (
     <div>
