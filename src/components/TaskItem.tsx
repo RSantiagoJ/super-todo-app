@@ -7,10 +7,11 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  //const task = useTaskStore((state) => state.tasks);
+  //const task = useTaskStore((state) => state.task);
   const editTask = useTaskStore((state) => state.editTask);
   const toggleTask = useTaskStore((state) => state.toggleTask);
   const deleteTask = useTaskStore((state) => state.deleteTask);
+  //const setIsEditing = useTaskStore((state) => state.setIsEditing);
 
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);
@@ -55,6 +56,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         </>
       )}
       <button onClick={() => setIsEditing(true)}>Edit</button>
+
       <button onClick={() => deleteTask(task.id)}>Delete</button>
     </div>
   );

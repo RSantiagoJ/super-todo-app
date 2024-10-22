@@ -2,52 +2,33 @@ import React from "react";
 import useTaskStore from "../store/taskStore";
 import TaskItem from "./TaskItem";
 
-// interface TaskListProps {
-//   tasks: Task[];
-//   // onToggle: (id: number) => void;
-//   // onDelete: (id: number) => void;
-//   // onEdit: (id: number, title: string, description: string) => void;
-//   // onSortByName: () => void;
-//   // onSortByCreationDate: () => void;
-//   // onSortByStatus: () => void;
-// }
+const TaskList: React.FC = ({}) => {
+  const tasks = useTaskStore((state) => state.tasks);
+  const sortByName = useTaskStore((state) => state.sortByName);
+  const sortByCreationDate = useTaskStore((state) => state.sortByCreationDate);
+  const sortByCompletionStatus = useTaskStore(
+    (state) => state.sortByCompletionStatus
+  );
 
-const addTask = useTaskStore((state) => state.addTask);
-
-const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  // onToggle,
-  // onDelete,
-  // onEdit,
-  // onSortByName,
-  // onSortByCreationDate,
-  // onSortByStatus,
-}) => {
   return (
     <div>
       {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onToggle={onToggle}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
+        <TaskItem key={task.id} task={task} />
       ))}
       <br></br>
-      <button onClick={onSortByName} type="button" className="universal-button">
+      <button onClick={sortByName} type="button" className="universal-button">
         Sort Tasks by Name
       </button>
       <br></br>
       <button
-        onClick={onSortByCreationDate}
+        onClick={sortByCreationDate}
         type="button"
         className="universal-button"
       >
         Sort Tasks by Creation Date
       </button>
       <button
-        onClick={onSortByStatus}
+        onClick={sortByCompletionStatus}
         type="button"
         className="universal-button"
       >
