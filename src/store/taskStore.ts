@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { Task } from "../types";
 
 interface TaskStore {
-  task: Task;
   tasks: Task[];
   addTask: (title: string, description: string) => void;
   toggleTask: (id: number) => void;
@@ -11,9 +10,8 @@ interface TaskStore {
   sortByName: () => void;
   sortByCreationDate: () => void;
   sortByCompletionStatus: () => void;
-  setIsEditing: (isEditing: boolean, id: number) => void;
-  //setNewTitle: (newTitle: string) => void;
-  //setNewDescription: (newDescription: string) => void;
+  toggleIsEditing: (task: Task) => void;
+  //getTaskById: (id: number) => Task | undefined;
 }
 
 const useTaskStore = create<TaskStore>((set) => ({
@@ -23,17 +21,22 @@ const useTaskStore = create<TaskStore>((set) => ({
     description: "",
     completed: false,
     isEditing: false,
-    // toggleIsEditing: function (): void {
-    //   throw new Error("Function not implemented.");
-    // },
   }, // Default task initialization
 
-  setIsEditing: (isEditing: boolean, id: number) =>
+  setIsEditingTest: (isEditing: boolean, id: number) =>
     set((state: TaskStore) => ({
       tasks: state.tasks.map((task) =>
         task.id === id ? { ...task, isEditing: !isEditing } : task
       ),
     })),
+
+  toggleIsEditing: (task: Task) =>
+    set((state: TaskStore) => ({
+      tasks: state.tasks.map((t) =>
+        t.id === task.id ? { ...t, isEditing: !t.isEditing } : task
+      ),
+    })),
+
   tasks: [],
   addTask: (title: string, description: string) =>
     set((state: TaskStore) => ({
@@ -45,9 +48,6 @@ const useTaskStore = create<TaskStore>((set) => ({
           description,
           completed: false,
           isEditing: false,
-          toggleIsEditing: function () {
-            this.isEditing = !this.isEditing;
-          },
         },
       ],
     })),
@@ -72,20 +72,20 @@ const useTaskStore = create<TaskStore>((set) => ({
     })),
 
   sortByName: () =>
-    set((state: TaskStore) => ({
-      tasks: state.tasks.sort((a, b) => a.title.localeCompare(b.title)),
+    set((state) => ({
+      tasks: [...state.tasks].sort((a, b) => a.title.localeCompare(b.title)),
     })),
 
   sortByCompletionStatus: () =>
-    set((state: TaskStore) => ({
-      tasks: state.tasks.sort(
+    set((state) => ({
+      tasks: [...state.tasks].sort(
         (a, b) => Number(a.completed) - Number(b.completed)
       ),
     })),
 
   sortByCreationDate: () =>
-    set((state: TaskStore) => ({
-      tasks: state.tasks.sort((a, b) => a.id - b.id),
+    set((state) => ({
+      tasks: [...state.tasks].sort((a, b) => a.id - b.id),
     })),
 }));
 

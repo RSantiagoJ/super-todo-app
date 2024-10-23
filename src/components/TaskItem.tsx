@@ -7,24 +7,22 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  //const task = useTaskStore((state) => state.task);
   const editTask = useTaskStore((state) => state.editTask);
   const toggleTask = useTaskStore((state) => state.toggleTask);
   const deleteTask = useTaskStore((state) => state.deleteTask);
-  //const setIsEditing = useTaskStore((state) => state.setIsEditing);
+  const toggleIsEditing = useTaskStore((state) => state.toggleIsEditing);
 
-  const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDescription, setNewDescription] = useState(task.description);
 
   const handleEditSubmit = () => {
     editTask(task.id, newTitle, newDescription);
-    setIsEditing(false);
+    toggleIsEditing(task);
   };
 
   return (
     <div className="task-item">
-      {isEditing ? (
+      {task.isEditing ? (
         <>
           <input
             type="text"
@@ -49,14 +47,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           />
           <span
             style={{ textDecoration: task.completed ? "line-through" : "none" }}
-            onDoubleClick={() => setIsEditing(true)}
+            onDoubleClick={() => toggleIsEditing(task)}
           >
             {task.title} - {task.description}
           </span>
         </>
       )}
-      <button onClick={() => setIsEditing(true)}>Edit</button>
-
+      <button onClick={() => toggleIsEditing(task)}>Edit</button>
       <button onClick={() => deleteTask(task.id)}>Delete</button>
     </div>
   );
