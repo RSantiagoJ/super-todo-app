@@ -9,17 +9,11 @@ const TaskList: React.FC = () => {
   const sortByCompletionStatus = useTaskStore(
     (state) => state.sortByCompletionStatus
   );
-  const setCurrentTaskId = useTaskStore((state) => state.setCurrentTaskById);
 
   return (
     <div>
       {tasks.map((task) => (
-        <>
-          <TaskItem key={task.id} task={task} />
-          <button onClick={() => setCurrentTaskId(task.id)}>
-            Set Current Task
-          </button>
-        </>
+        <TaskItem key={task.id} task={task} />
       ))}
       <br />
       <button onClick={sortByName} type="button" className="universal-button">
