@@ -11,10 +11,10 @@ interface TaskStore {
   sortByCreationDate: () => void;
   sortByCompletionStatus: () => void;
   toggleIsEditing: (task: Task) => void;
-  //getTaskById: (id: number) => Task | undefined;
+  getTaskById: (id: number) => Task | undefined;
 }
 
-const useTaskStore = create<TaskStore>((set) => ({
+const useTaskStore = create<TaskStore>((set, get) => ({
   task: {
     id: 0,
     title: "",
@@ -64,6 +64,10 @@ const useTaskStore = create<TaskStore>((set) => ({
       tasks: state.tasks.filter((task) => task.id !== id),
     })),
 
+  // do not use set for ftching or reading data from state
+  getTaskById: (id: number) => {
+    return get().tasks.find((task) => task.id === id);
+  },
   editTask: (id: number, title: string, description: string) =>
     set((state: TaskStore) => ({
       tasks: state.tasks.map((task) =>
