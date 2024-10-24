@@ -14,7 +14,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const setNewTitle = useTaskStore((state) => state.setNewTitle);
   const setNewDescription = useTaskStore((state) => state.setNewDescription);
   const newTitle = useTaskStore((state) => state.newTitle);
-  const newDescription = useTaskStore((state) => state.newDescripton);
+  const newDescription = useTaskStore((state) => state.newDescription);
 
   const handleEditSubmit = () => {
     editTask(task.id, newTitle, newDescription);
