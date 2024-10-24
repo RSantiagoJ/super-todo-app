@@ -108,6 +108,9 @@ const useTaskStore = create<State>()(
     {
       name: "task-storage",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => {
+        console.log("Rehydrating tasks from local storage...");
+      },
     }
   )
 );
