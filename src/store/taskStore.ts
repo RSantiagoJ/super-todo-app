@@ -14,12 +14,28 @@ interface TaskStore {
   toggleIsEditing: (task: Task) => void;
   getTaskById: (id: number) => Task | undefined;
   setCurrentTaskById: (id: number | null) => void;
+  title: string;
+  description: string;
+  newTitle: string;
+  newDescripton: string;
+  setTitle: (title: string) => void;
+  setDescription: (description: string) => void;
+  setNewTitle: (title: string) => void;
+  setNewDescription: (description: string) => void;
 }
 
 const useTaskStore = create<TaskStore>((set, get) => ({
   tasks: [],
+  title: "",
+  description: "",
   currentTaskId: null,
+  newTitle: "",
+  newDescripton: "",
 
+  setTitle: (title: string) => set({ title }),
+  setDescription: (description: string) => set({ description }),
+  setNewTitle: (title: string) => set({ newTitle: title }),
+  setNewDescription: (description: string) => ({ newDescription: description }),
   setCurrentTaskById: (id: number | null) => set({ currentTaskId: id }),
 
   toggleIsEditing: (task: Task) =>

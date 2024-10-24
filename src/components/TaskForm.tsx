@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import useTaskStore from "../store/taskStore";
 
 const TaskForm: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const title = useTaskStore((state) => state.title);
+  const description = useTaskStore((state) => state.description);
   const addTask = useTaskStore((state) => state.addTask);
+  const setTitle = useTaskStore((state) => state.setTitle);
+  const setDescription = useTaskStore((state) => state.setDescription);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

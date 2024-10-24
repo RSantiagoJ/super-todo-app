@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useTaskStore from "../store/taskStore";
 import { Task } from "../types";
 
@@ -11,9 +11,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const toggleTask = useTaskStore((state) => state.toggleTask);
   const deleteTask = useTaskStore((state) => state.deleteTask);
   const toggleIsEditing = useTaskStore((state) => state.toggleIsEditing);
-
-  const [newTitle, setNewTitle] = useState(task.title);
-  const [newDescription, setNewDescription] = useState(task.description);
+  const setNewTitle = useTaskStore((state) => state.setNewTitle);
+  const setNewDescription = useTaskStore((state) => state.setNewDescription);
+  const newTitle = useTaskStore((state) => state.newTitle);
+  const newDescription = useTaskStore((state) => state.newDescripton);
 
   const handleEditSubmit = () => {
     editTask(task.id, newTitle, newDescription);
