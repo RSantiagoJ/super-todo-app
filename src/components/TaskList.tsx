@@ -9,18 +9,15 @@ const TaskList: React.FC = () => {
   const sortByCompletionStatus = useTaskStore(
     (state) => state.sortByCompletionStatus
   );
-  const setCurrentTaskId = useTaskStore((state) => state.setCurrentTaskById);
+  const setCurrentTaskById = useTaskStore((state) => state.setCurrentTaskById);
 
   return (
     <div>
       {tasks.map((task) => (
-        <React.Fragment key={task.id}>
+        <div key={task.id} onMouseOver={() => setCurrentTaskById(task.id)}>
           {/*react expects a key to be attached to outermost element in each iteration of a list. Each child in a list should have a unique key prop*/}
           <TaskItem task={task} />
-          <button onClick={() => setCurrentTaskId(task.id)}>
-            Set Current Task
-          </button>
-        </React.Fragment>
+        </div>
       ))}
       <br />
       <button onClick={sortByName} type="button" className="universal-button">
