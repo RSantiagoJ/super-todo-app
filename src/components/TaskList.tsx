@@ -14,13 +14,13 @@ const TaskList: React.FC = () => {
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task.id}>
+        <React.Fragment key={task.id}>
           {/*react expects a key to be attached to outermost element in each iteration of a list. Each child in a list should have a unique key prop*/}
           <TaskItem task={task} />
           <button onClick={() => setCurrentTaskId(task.id)}>
             Set Current Task
           </button>
-        </div>
+        </React.Fragment>
       ))}
       <br />
       <button onClick={sortByName} type="button" className="universal-button">
