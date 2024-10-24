@@ -35,7 +35,8 @@ const useTaskStore = create<TaskStore>((set, get) => ({
   setTitle: (title: string) => set({ title }),
   setDescription: (description: string) => set({ description }),
   setNewTitle: (title: string) => set({ newTitle: title }),
-  setNewDescription: (description: string) => ({ newDescription: description }),
+  setNewDescription: (description: string) =>
+    set({ newDescription: description }),
   setCurrentTaskById: (id: number | null) => set({ currentTaskId: id }),
 
   toggleIsEditing: (task: Task) =>
