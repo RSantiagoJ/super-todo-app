@@ -17,7 +17,7 @@ interface TaskStore {
   title: string;
   description: string;
   newTitle: string;
-  newDescripton: string;
+  newDescription: string;
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   setNewTitle: (title: string) => void;
@@ -30,7 +30,7 @@ const useTaskStore = create<TaskStore>((set, get) => ({
   description: "",
   currentTaskId: null,
   newTitle: "",
-  newDescripton: "",
+  newDescription: "",
 
   setTitle: (title: string) => set({ title }),
   setDescription: (description: string) => set({ description }),
