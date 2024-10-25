@@ -9,7 +9,7 @@ interface TaskItemProps {
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const currentTaskId = useTaskStore((state) => state.currentTaskId);
   //const currentTask = useTaskStore((state) => state.getCurrentTask);
-  //const currentTask = useTaskStore((state) => state.getTaskById(currentTaskId));
+  //const currentTaskId = useTaskStore((state) => state.getTaskById(currentTaskId));
   const tasks = useTaskStore((state) => state.tasks);
   const toggleTask = useTaskStore((state) => state.toggleTask);
   const editTask = useTaskStore((state) => state.editTask);
