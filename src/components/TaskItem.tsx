@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useTaskStore from "../store/taskStore";
 import { Task } from "../types";
 
@@ -7,17 +7,28 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const editTask = useTaskStore((state) => state.editTask);
+  const currentTaskId = useTaskStore((state) => state.currentTaskId);
+  //const currentTask = useTaskStore((state) => state.getCurrentTask);
+  //const currentTask = useTaskStore((state) => state.getTaskById(currentTaskId));
+  const tasks = useTaskStore((state) => state.tasks);
   const toggleTask = useTaskStore((state) => state.toggleTask);
+  const editTask = useTaskStore((state) => state.editTask);
   const deleteTask = useTaskStore((state) => state.deleteTask);
   const toggleIsEditing = useTaskStore((state) => state.toggleIsEditing);
-  const setNewTitle = useTaskStore((state) => state.setNewTitle);
-  const setNewDescription = useTaskStore((state) => state.setNewDescription);
-  const newTitle = useTaskStore((state) => state.newTitle);
-  const newDescription = useTaskStore((state) => state.newDescription);
+  const setNewTitle = useTaskStore((state) => state.setTitle);
+  const setNewDescription = useTaskStore((state) => state.setDescription);
+  const title = useTaskStore((state) => state.title);
+  const description = useTaskStore((state) => state.description);
+
+  // if (!currentTask) return null;
+
+  useEffect(() => {
+    console.log("Current Task ID:", currentTaskId);
+    console.log("All Tasks:", tasks);
+  }, [currentTaskId, tasks]);
 
   const handleEditSubmit = () => {
-    editTask(task.id, newTitle, newDescription);
+    editTask(task.id, title, description);
     toggleIsEditing(task);
   };
 
@@ -27,13 +38,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         <>
           <input
             type="text"
-            value={newTitle}
+            value={title}
             onChange={(e) => setNewTitle(e.target.value)}
             placeholder="Edit task title"
           />
           <input
             type="text"
-            value={newDescription}
+            value={description}
             onChange={(e) => setNewDescription(e.target.value)}
             placeholder="Edit task description"
           />

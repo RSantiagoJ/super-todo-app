@@ -14,7 +14,7 @@ const TaskList: React.FC = () => {
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task.id} onMouseOver={() => setCurrentTaskById(task.id)}>
+        <div key={task.id} onClick={() => setCurrentTaskById(task.id)}>
           {/*react expects a key to be attached to outermost element in each iteration of a list. Each child in a list should have a unique key prop*/}
           <TaskItem task={task} />
         </div>
