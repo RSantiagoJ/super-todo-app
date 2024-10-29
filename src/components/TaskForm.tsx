@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useTaskStore from "../store/taskStore";
 
 const TaskForm: React.FC = () => {
@@ -7,6 +7,7 @@ const TaskForm: React.FC = () => {
   const addTask = useTaskStore((state) => state.addTask);
   const setTitle = useTaskStore((state) => state.setTitle);
   const setDescription = useTaskStore((state) => state.setDescription);
+  const tasks = useTaskStore((state) => state.tasks);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,6 +17,10 @@ const TaskForm: React.FC = () => {
       setDescription("");
     }
   };
+
+  useEffect(() => {
+    console.log("All Tasks:", tasks);
+  }, [tasks]);
 
   return (
     <form onSubmit={handleSubmit}>

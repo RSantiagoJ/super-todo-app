@@ -1,6 +1,5 @@
 import React from "react";
 import useTaskStore from "../store/taskStore";
-import TaskItem from "./TaskItem";
 
 const TaskList: React.FC = () => {
   const tasks = useTaskStore((state) => state.tasks);
@@ -9,14 +8,72 @@ const TaskList: React.FC = () => {
   const sortByCompletionStatus = useTaskStore(
     (state) => state.sortByCompletionStatus
   );
-  const setCurrentTaskById = useTaskStore((state) => state.setCurrentTaskById);
+  const editTask = useTaskStore((state) => state.editTask);
+  const toggleTask = useTaskStore((state) => state.toggleTask);
+  const deleteTask = useTaskStore((state) => state.deleteTask);
+  const toggleIsEditing = useTaskStore((state) => state.toggleIsEditing);
+  const setNewTitle = useTaskStore((state) => state.setNewTitle);
+  const setNewDescription = useTaskStore((state) => state.setNewDescription);
+  const newTitle = useTaskStore((state) => state.newTitle);
+  const newDescription = useTaskStore((state) => state.newDescription);
+
+  const handleEditSubmit = (taskId: number) => {
+    editTask(taskId, newTitle, newDescription);
+    setNewTitle(""); // Clear the newTitle after saving
+    setNewDescription(""); // Clear the newDescription after saving
+  };
 
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task.id} onClick={() => setCurrentTaskById(task.id)}>
-          {/*react expects a key to be attached to outermost element in each iteration of a list. Each child in a list should have a unique key prop*/}
-          <TaskItem task={task} />
+        <div key={task.id} className="task-item">
+          {task.isEditing ? (
+            <>
+              <input
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Edit task title"
+              />
+              <input
+                type="text"
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                placeholder="Edit task description"
+              />
+              <button onClick={() => handleEditSubmit(task.id)}>Save</button>
+            </>
+          ) : (
+            <>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleTask(task.id)}
+              />
+              <span
+                style={{
+                  textDecoration: task.completed ? "line-through" : "none",
+                }}
+                onClick={() => {
+                  setNewTitle(task.title);
+                  setNewDescription(task.description);
+                  toggleIsEditing(task.id);
+                }}
+              >
+                {task.title} - {task.description}
+              </span>
+            </>
+          )}
+          <button
+            onClick={() => {
+              setNewTitle(task.title);
+              setNewDescription(task.description);
+              toggleIsEditing(task.id);
+            }}
+          >
+            Edit
+          </button>
+          <button onClick={() => deleteTask(task.id)}>Delete</button>
         </div>
       ))}
       <br />

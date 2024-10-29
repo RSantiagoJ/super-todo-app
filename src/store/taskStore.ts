@@ -4,9 +4,14 @@ import { Task } from "../types";
 
 type State = {
   tasks: Task[];
-  currentTaskId: number | null;
+  id: number | null;
   title: string;
   description: string;
+  currentTaskId: number | null;
+
+  newTitle: string;
+  newDescription: string;
+
   addTask: (title: string, description: string) => void;
   toggleTask: (id: number) => void;
   deleteTask: (id: number) => void;
@@ -14,12 +19,13 @@ type State = {
   sortByName: () => void;
   sortByCreationDate: () => void;
   sortByCompletionStatus: () => void;
-  toggleIsEditing: (task: Task) => void;
+  toggleIsEditing: (id: number) => void;
   getTaskById: (id: number | null) => Task | undefined;
   setCurrentTaskById: (id: number | null) => void;
-
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
+  setNewTitle: (newTitle: string) => void;
+  setNewDescription: (newDescription: string) => void;
   getCurrentTask: () => Task | undefined;
 };
 
@@ -28,23 +34,26 @@ const useTaskStore = create<State>()(
     (set, get) => ({
       // set initial values
       tasks: [],
+      id: 0,
       title: "",
       description: "",
       currentTaskId: null,
 
+      newTitle: "",
+      newDescription: "",
+
       setTitle: (title: string) => set({ title }),
+      setNewDescription: (newDescription: string) => set({ newDescription }),
+      setNewTitle: (newTitle: string) => set({ newTitle }),
       setDescription: (description: string) => set({ description }),
-      setNewTitle: (title: string) => set({ title: title }),
-      setNewDescription: (description: string) =>
-        set({ description: description }),
-      setCurrentTaskById: (id: number | null) => set({ currentTaskId: id }),
-      toggleIsEditing: (task: Task) =>
+      setCurrentTaskById: (id: number | null) => set({ id }),
+
+      toggleIsEditing: (id: number) =>
         set((state) => ({
-          tasks: state.tasks.map((t) =>
-            t.id === task.id ? { ...t, isEditing: !t.isEditing } : t
+          tasks: state.tasks.map((task) =>
+            task.id === id ? { ...task, isEditing: !task.isEditing } : task
           ),
         })),
-
       addTask: (title: string, description: string) => {
         console.log("Adding task:", title, description);
 
@@ -57,6 +66,8 @@ const useTaskStore = create<State>()(
               description,
               completed: false,
               isEditing: false,
+              newTitle: "",
+              newDescription: "",
             },
           ],
           title: "", // reset val after adding
@@ -68,6 +79,9 @@ const useTaskStore = create<State>()(
         const { currentTaskId, tasks } = get();
         return tasks.find((task) => task.id === currentTaskId);
       },
+
+      getTaskById: (id: number | null) =>
+        get().tasks.find((task) => task.id === id),
 
       toggleTask: (id: number) =>
         set((state) => ({
@@ -81,13 +95,17 @@ const useTaskStore = create<State>()(
           tasks: state.tasks.filter((task) => task.id !== id),
         })),
 
-      getTaskById: (id: number | null) =>
-        get().tasks.find((task) => task.id === id),
-
-      editTask: (id: number, title: string, description: string) =>
+      editTask: (id: number, newTitle: string, newDescription: string) =>
         set((state) => ({
           tasks: state.tasks.map((task) =>
-            task.id === id ? { ...task, title, description } : task
+            task.id === id
+              ? {
+                  ...task,
+                  title: newTitle,
+                  description: newDescription,
+                  isEditing: false,
+                }
+              : task
           ),
         })),
 

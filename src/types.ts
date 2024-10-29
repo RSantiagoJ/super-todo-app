@@ -4,4 +4,6 @@ export interface Task {
   completed: boolean;
   description: string;
   isEditing: boolean;
+  newTitle: string;
+  newDescription: string;
 }
