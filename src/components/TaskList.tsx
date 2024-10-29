@@ -21,6 +21,7 @@ const TaskList: React.FC = () => {
     editTask(taskId, newTitle, newDescription);
     setNewTitle(""); // Clear the newTitle after saving
     setNewDescription(""); // Clear the newDescription after saving
+    useTaskStore.getState().setCurrentTaskById(taskId);
   };
 
   return (

@@ -25,7 +25,9 @@ type State = {
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   setNewTitle: (newTitle: string) => void;
+  //setNewTitle: (id: number, title: string) => void;
   setNewDescription: (newDescription: string) => void;
+  //setNewDescription: (id: number, description: string) => void;
   getCurrentTask: () => Task | undefined;
 };
 
@@ -46,14 +48,30 @@ const useTaskStore = create<State>()(
       setNewDescription: (newDescription: string) => set({ newDescription }),
       setNewTitle: (newTitle: string) => set({ newTitle }),
       setDescription: (description: string) => set({ description }),
-      setCurrentTaskById: (id: number | null) => set({ id }),
+      setCurrentTaskById: (id: number | null) => set({ currentTaskId: id }),
+
+      // setNewTitle: (id: number, title: string) =>
+      //   set((state) => ({
+      //     tasks: state.tasks.map((task) =>
+      //       task.id === id ? { ...task, newTitle: title } : task
+      //     ),
+      //   })),
+
+      // setNewDescription: (id: number, description: string) =>
+      //   set((state) => ({
+      //     tasks: state.tasks.map((task) =>
+      //       task.id === id ? { ...task, newDescription: description } : task
+      //     ),
+      //   })),
 
       toggleIsEditing: (id: number) =>
         set((state) => ({
+          currentTaskId: id,
           tasks: state.tasks.map((task) =>
             task.id === id ? { ...task, isEditing: !task.isEditing } : task
           ),
         })),
+
       addTask: (title: string, description: string) => {
         console.log("Adding task:", title, description);
 
@@ -95,6 +113,20 @@ const useTaskStore = create<State>()(
           tasks: state.tasks.filter((task) => task.id !== id),
         })),
 
+      // editTask: (id: number, newTitle: string, newDescription: string) =>
+      //   set((state) => ({
+      //     tasks: state.tasks.map((task) =>
+      //       task.id === id
+      //         ? {
+      //             ...task,
+      //             title: newTitle,
+      //             description: newDescription,
+      //             isEditing: false,
+      //           }
+      //         : task
+      //     ),
+      //   })),
+
       editTask: (id: number, newTitle: string, newDescription: string) =>
         set((state) => ({
           tasks: state.tasks.map((task) =>
@@ -104,6 +136,8 @@ const useTaskStore = create<State>()(
                   title: newTitle,
                   description: newDescription,
                   isEditing: false,
+                  newTitle: "", // Reset new title
+                  newDescription: "", // Reset new description
                 }
               : task
           ),
