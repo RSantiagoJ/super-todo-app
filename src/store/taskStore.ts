@@ -8,7 +8,6 @@ type State = {
   title: string;
   description: string;
   currentTaskId: number | null;
-
   newTitle: string;
   newDescription: string;
 
@@ -40,7 +39,6 @@ const useTaskStore = create<State>()(
       title: "",
       description: "",
       currentTaskId: null,
-
       newTitle: "",
       newDescription: "",
 
@@ -80,8 +78,10 @@ const useTaskStore = create<State>()(
             ...state.tasks,
             {
               id: Date.now(),
-              title,
-              description,
+              title: title,
+              description: description,
+              //newTitle: title,
+              //newDescription: description,
               completed: false,
               isEditing: false,
               newTitle: "",
